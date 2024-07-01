@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "csv/api",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "csv generator and api to load/get data",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
