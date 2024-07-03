@@ -1,0 +1,270 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "88badcd3-2876-4d33-b6ed-47e9089cafb7",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "GET api\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "User Data",
+            "description": "",
+            "item": [
+                {
+                    "name": "Upload Data with CSV file.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-data\/upload",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user-data\/upload"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 202,
+                            "body": "{\"success\": true, \"message\": \"The file has been successfully uploaded and is being processed.\", \"data\": {\"name\": \"random_name_123456.csv\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Validation errors\", \"data\": {\"file\": [\"The file field is required.\"]}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"success\": false, \"message\": \"Failed to upload the file. Please try again later.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Retrieve a list of user data.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-data",
+                            "query": [
+                                {
+                                    "key": "first_name",
+                                    "value": "A",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must not be greater than 50 characters.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "last_name",
+                                    "value": "A",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must not be greater than 50 characters.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "age",
+                                    "value": "30",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must be at least 18. Must not be greater than 80.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "gender",
+                                    "value": "male",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "mobile_number",
+                                    "value": "123",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must not be greater than 25 characters.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "test%40gmail.com",
+                                    "description": "Must be a valid email address. This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must not be greater than 100 characters.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "city",
+                                    "value": "London",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must not be greater than 100 characters.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "login",
+                                    "value": "A",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must not be greater than 50 characters.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "car_model",
+                                    "value": "BMW",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "salary",
+                                    "value": "1000",
+                                    "description": "This field is required when none of first_name, last_name, age, gender, mobile_number, email, city, login, car_model, and salary are present. Must be at least 1000. Must not be greater than 5000.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Must be at least 1. Must not be greater than 1000.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "",
+                                    "description": "Must be at least 0.",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "sort_by",
+                                    "value": "age",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "order_by",
+                                    "value": "asc",
+                                    "description": "",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/user-data?first_name=A&last_name=A&age=30&gender=male&mobile_number=123&email=test%40gmail.com&city=London&login=A&car_model=BMW&salary=1000&limit=10&offset=&sort_by=age&order_by=asc"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ok\", \"data\": [[...],[...]]}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Validation errors\", \"data\": {\"age\": [\"The age field must be at least 18.\"]}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"success\": false, \"message\": \"Failed to upload the file. Please try again later.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

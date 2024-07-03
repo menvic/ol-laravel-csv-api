@@ -1,3 +1,8 @@
 *
 !public/
 !.gitignore
+!csv/
+!csv/example*
+!csv/.gitkeep
+!csv/queue
+!csv/queue/.gitkeep

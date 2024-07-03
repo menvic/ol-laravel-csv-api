@@ -1,0 +1,272 @@
+name: 'User Data'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/user-data/upload
+    metadata:
+      groupName: 'User Data'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Upload Data with CSV file.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      file:
+        name: file
+        description: 'The CSV file to upload.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters: []
+    fileParameters:
+      file: null
+    responses:
+      -
+        status: 202
+        content: '{"success": true, "message": "The file has been successfully uploaded and is being processed.", "data": {"name": "random_name_123456.csv"}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: '{"success": false, "message": "Validation errors", "data": {"file": ["The file field is required."]}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"success": false, "message": "Failed to upload the file. Please try again later."}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/user-data
+    metadata:
+      groupName: 'User Data'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Retrieve a list of user data.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      first_name:
+        name: first_name
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must not be greater than 50 characters.'
+        required: false
+        example: A
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      last_name:
+        name: last_name
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must not be greater than 50 characters.'
+        required: false
+        example: A
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      age:
+        name: age
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must be at least 18. Must not be greater than 80.'
+        required: false
+        example: 30
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      gender:
+        name: gender
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present.'
+        required: false
+        example: male
+        type: string
+        enumValues:
+          - male
+          - female
+        exampleWasSpecified: false
+        custom: []
+      mobile_number:
+        name: mobile_number
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must not be greater than 25 characters.'
+        required: false
+        example: '123'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email:
+        name: email
+        description: 'Must be a valid email address. This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must not be greater than 100 characters.'
+        required: false
+        example: test@gmail.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      city:
+        name: city
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must not be greater than 100 characters.'
+        required: false
+        example: London
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      login:
+        name: login
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must not be greater than 50 characters.'
+        required: false
+        example: A
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      car_model:
+        name: car_model
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present.'
+        required: false
+        example: BMW
+        type: string
+        enumValues:
+          - BMW
+          - Mercedes
+          - Ford
+          - Toyota
+          - Honda
+          - Fiat
+          - Peugeot
+          - Nissan
+          - Volkswagen
+        exampleWasSpecified: false
+        custom: []
+      salary:
+        name: salary
+        description: 'This field is required when none of <code>first_name</code>, <code>last_name</code>, <code>age</code>, <code>gender</code>, <code>mobile_number</code>, <code>email</code>, <code>city</code>, <code>login</code>, <code>car_model</code>, and <code>salary</code> are present. Must be at least 1000. Must not be greater than 5000.'
+        required: false
+        example: 1000
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Must be at least 1. Must not be greater than 1000.'
+        required: false
+        example: 10
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      offset:
+        name: offset
+        description: 'Must be at least 0.'
+        required: false
+        example: 0
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sort_by:
+        name: sort_by
+        description: ''
+        required: false
+        example: age
+        type: string
+        enumValues:
+          - first_name
+          - last_name
+          - age
+          - gender
+          - mobile_number
+          - email
+          - city
+          - login
+          - car_model
+          - salary
+        exampleWasSpecified: false
+        custom: []
+      order_by:
+        name: order_by
+        description: ''
+        required: false
+        example: asc
+        type: string
+        enumValues:
+          - asc
+          - desc
+        exampleWasSpecified: false
+        custom: []
+    cleanQueryParameters:
+      first_name: A
+      last_name: A
+      age: 30
+      gender: male
+      mobile_number: '123'
+      email: test@gmail.com
+      city: London
+      login: A
+      car_model: BMW
+      salary: 1000
+      limit: 10
+      offset: 0
+      sort_by: age
+      order_by: asc
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success": true, "message": "Ok", "data": [[...],[...]]}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: '{"success": false, "message": "Validation errors", "data": {"age": ["The age field must be at least 18."]}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"success": false, "message": "Failed to upload the file. Please try again later."}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
