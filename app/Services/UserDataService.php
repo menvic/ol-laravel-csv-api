@@ -27,7 +27,7 @@ class UserDataService
         $cache = Cache::store('redis');
 
         if ($cache->has($cacheKey)) {
-            return json_decode($cache->get($cacheKey), true);
+            // return json_decode($cache->get($cacheKey), true);
         }
 
         $data = $this->fetchData($request);
@@ -45,7 +45,7 @@ class UserDataService
      * @param UserDataRequest $request The request containing parameters for data fetching
      * @return Collection The collection of user data after applying filters, sorting, and pagination
      */
-    private function fetchData(UserDataRequest $request): Collection
+    private function fetchData(UserDataRequest $request)
     {
         $userDataModel = new UserData();
         $limit = $request->input('limit', 50);
@@ -72,11 +72,51 @@ class UserDataService
             }
         }
 
-        // sort and paginate
-        $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc')
-            ->skip($offset)
-            ->take($limit);
+        // // sort and paginate
+        // $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc')
+        //     ->skip($offset)
+        //     ->take($limit);
 
-        return $query->get();
+        // return $query->get();
+
+        $results = collect();
+        $currentOffset = 0;
+        $currentCursor = null;
+        $batchSize = 1000000;
+        $cacheKey = 'test';
+        if ($offset < $batchSize) {
+            $batchSize = $offset;
+        }
+        // dump("currentOffset:{$currentOffset}", "limit:{$limit}", "offset:{$offset}", "batchSize:{$batchSize}");
+
+        $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc');
+
+        while ($currentOffset < $offset + $limit) {
+            // /** @var CursorPaginator $paginator */
+            $paginator = $query->cursorPaginate($batchSize, cursorName: $cacheKey, cursor: $currentCursor);
+
+            if ($currentOffset < $offset) {
+                $currentOffset += $batchSize;
+                $currentCursor = $paginator->nextCursor();
+                continue;
+            }
+
+            foreach ($paginator as $item) {
+                $results->push($item);
+                if ($results->count() >= $limit) {
+                    break 2;
+                }
+            }
+
+            if (!$paginator->hasMorePages()) {
+                break;
+            }
+
+            $currentCursor = $paginator->nextCursor();
+            $currentOffset += $batchSize;
+        }
+        // dd("currentOffset:{$currentOffset}", $currentCursor, $paginator, $results->pluck('id')->toArray());
+
+        return $results;
     }
 }
