@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\UserDataRequest;
 use App\Http\Resources\UserDataResource;
-use Illuminate\Database\Eloquent\Collection;
+// use Illuminate\Database\Eloquent\Collection;
+// use Illuminate\Support\Collection;
 
 class UserDataService
 {
@@ -34,7 +35,7 @@ class UserDataService
 
         $dataResource = UserDataResource::collection($data);
 
-        $cache->put($cacheKey, $dataResource->toJson(), now()->addMinutes(10));
+        // $cache->put($cacheKey, $dataResource->toJson(), now()->addMinutes(10));
 
         return $dataResource->resolve();
     }
@@ -43,9 +44,9 @@ class UserDataService
      * Fetches user data based on the provided request.
      *
      * @param UserDataRequest $request The request containing parameters for data fetching
-     * @return Collection The collection of user data after applying filters, sorting, and pagination
+    //  * @return Collection The collection of user data after applying filters, sorting, and pagination
      */
-    private function fetchData(UserDataRequest $request): Collection
+    private function fetchData(UserDataRequest $request)
     {
         $userDataModel = new UserData();
         $limit = $request->input('limit', 50);
@@ -73,10 +74,25 @@ class UserDataService
         }
 
         // sort and paginate
-        $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc')
-            ->skip($offset)
-            ->take($limit);
+        // $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc')
+        //     ->skip($offset)
+        //     ->take($limit);
 
-        return $query->get();
+        // return $query->get();
+
+        $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc');
+
+        $results = collect();
+        foreach ($query->cursor() as $key => $item) {
+            if ($key < $offset) {
+                continue;
+            }
+            $results->push($item);
+            if ($results->count() >= $limit) {
+                break;
+            }
+        }
+
+        return $results;
     }
 }
