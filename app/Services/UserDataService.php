@@ -65,7 +65,7 @@ class UserDataService
                 $value = $request->input($field);
 
                 if (in_array($field, ['first_name', 'last_name', 'email', 'city', 'login'])) {
-                    $query->where(DB::raw('LOWER(' . $field . ')'), 'like', '%' . strtolower($value) . '%');
+                    $query->where($field, 'like', '%' . strtolower($value) . '%');
                 } else {
                     $query->where($field, $value);
                 }
