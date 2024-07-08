@@ -59,13 +59,13 @@ class UserDataService
         $query->select('id', ...$fillableFields);
 
         // filter
-        foreach ($userDataModel->getFillable() as $field) {
+        foreach ($fillableFields as $field) {
             if ($request->filled($field)) {
 
                 $value = $request->input($field);
 
-                if (in_array($field, ['first_name', 'last_name', 'email', 'city', 'login'])) {
-                    $query->where(DB::raw('LOWER(' . $field . ')'), 'like', '%' . strtolower($value) . '%');
+                if (in_array($field, ['first_name', 'last_name', 'mobile_number', 'email', 'city', 'login'])) {
+                    $query->where($field, 'ILIKE', '%' . $value . '%');
                 } else {
                     $query->where($field, $value);
                 }

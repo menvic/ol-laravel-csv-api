@@ -40,11 +40,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement('CREATE INDEX user_data_lower_first_name_index ON user_data (LOWER(first_name))');
-        DB::statement('CREATE INDEX user_data_lower_last_name_index ON user_data (LOWER(last_name))');
-        DB::statement('CREATE INDEX user_data_lower_email_index ON user_data (LOWER(email))');
-        DB::statement('CREATE INDEX user_data_lower_city_index ON user_data (LOWER(city))');
-        DB::statement('CREATE INDEX user_data_lower_login_index ON user_data (LOWER(login))');
+        DB::statement('CREATE EXTENSION IF NOT EXISTS pg_trgm');
+        DB::statement('CREATE INDEX idx_first_name_trgm ON user_data USING gin (first_name gin_trgm_ops);');
+        DB::statement('CREATE INDEX idx_last_name_trgm ON user_data USING gin (last_name gin_trgm_ops);');
+        DB::statement('CREATE INDEX idx_mobile_number_trgm ON user_data USING gin (mobile_number gin_trgm_ops);');
+        DB::statement('CREATE INDEX idx_email_trgm ON user_data USING gin (email gin_trgm_ops);');
+        DB::statement('CREATE INDEX idx_city_trgm ON user_data USING gin (city gin_trgm_ops);');
+        DB::statement('CREATE INDEX idx_login_trgm ON user_data USING gin (login gin_trgm_ops);');
     }
 
     /**
@@ -53,5 +55,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('user_data');
+        DB::statement('DROP EXTENSION IF EXISTS pg_trgm');
     }
 };

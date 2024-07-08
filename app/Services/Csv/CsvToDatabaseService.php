@@ -29,16 +29,26 @@ class CsvToDatabaseService
         DB::beginTransaction();
 
         try {
+            // disable indexes
+            DB::statement("ALTER TABLE {$table} DISABLE TRIGGER ALL");
+
             $query = sprintf("COPY %s(%s) FROM '%s' CSV HEADER", $table, $fieldString, $file);
 
             DB::statement($query);
+
             DB::commit();
 
             $storage->delete($filePath);
         } catch (\Exception $e) {
+
             DB::rollBack();
+
             Log::error("Error processing CSV file({$filePath}): {$e->getMessage()}");
+
             throw $e;
+        } finally {
+            // Enable indexes
+            DB::statement("ALTER TABLE {$table} ENABLE TRIGGER ALL");
         }
     }
 }
