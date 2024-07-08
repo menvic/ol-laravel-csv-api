@@ -14,16 +14,16 @@ return new class extends Migration
     {
         Schema::create('user_data', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 50)->index();
-            $table->string('last_name', 50)->index();
+            $table->string('first_name', 50)->fullText('first_name');
+            $table->string('last_name', 50)->fullText('last_name');
             $table->tinyInteger('age')->index();
-            $table->enum('gender', ['male', 'female'])->index();
-            $table->string('mobile_number', 25)->index();
-            $table->string('email', 100)->index();
+            $table->enum('gender', ['male', 'female'])->fullText('gender');
+            $table->string('mobile_number', 25)->fulltext('mobile_number');
+            $table->string('email', 100)->fulltext('email');
             // $table->string('mobile_number', 25)->unique();
             // $table->string('email', 100)->unique();
-            $table->string('city', 100)->index();
-            $table->string('login', 50)->index();
+            $table->string('city', 100)->fulltext('city');
+            $table->string('login', 50)->fulltext('login');
             // same as \App\CarModelEnum cases
             $table->enum('car_model', [
                 'BMW',
@@ -35,16 +35,10 @@ return new class extends Migration
                 'Peugeot',
                 'Nissan',
                 'Volkswagen',
-            ])->index();
+            ])->fulltext('car_model');
             $table->integer('salary')->index();
             $table->timestamps();
         });
-
-        DB::statement('CREATE INDEX user_data_lower_first_name_index ON user_data (LOWER(first_name))');
-        DB::statement('CREATE INDEX user_data_lower_last_name_index ON user_data (LOWER(last_name))');
-        DB::statement('CREATE INDEX user_data_lower_email_index ON user_data (LOWER(email))');
-        DB::statement('CREATE INDEX user_data_lower_city_index ON user_data (LOWER(city))');
-        DB::statement('CREATE INDEX user_data_lower_login_index ON user_data (LOWER(login))');
     }
 
     /**

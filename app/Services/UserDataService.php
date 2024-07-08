@@ -27,7 +27,7 @@ class UserDataService
         $cache = Cache::store('redis');
 
         if ($cache->has($cacheKey)) {
-            return json_decode($cache->get($cacheKey), true);
+            // return json_decode($cache->get($cacheKey), true);
         }
 
         $data = $this->fetchData($request);
@@ -59,23 +59,34 @@ class UserDataService
         $query->select('id', ...$fillableFields);
 
         // filter
-        foreach ($userDataModel->getFillable() as $field) {
-            if ($request->filled($field)) {
+        // foreach ($userDataModel->getFillable() as $field) {
+        //     if ($request->filled($field)) {
 
-                $value = $request->input($field);
+        //         $value = $request->input($field);
 
-                if (in_array($field, ['first_name', 'last_name', 'email', 'city', 'login'])) {
-                    $query->where($field, 'like', '%' . strtolower($value) . '%');
-                } else {
-                    $query->where($field, $value);
-                }
-            }
-        }
+        //         if (in_array($field, ['first_name', 'last_name', 'gender', 'mobile_number', 'email', 'city', 'login', 'car_model'])) {
+        //             $query->whereFullText($field, $value);
+        //         } else {
+        //             $query->where($field, $value);
+        //         }
+        //     }
+        // }
+        $query->whereFullText(['first_name', 'last_name', 'gender', 'mobile_number', 'email', 'city', 'login', 'car_model'], $request->input('search'));
 
         // sort and paginate
         $query->orderBy($sortBy, $orderBy)->orderBy('id', 'asc')
             ->skip($offset)
             ->take($limit);
+
+        $sql = $query->toSql(); // Get the SQL with placeholders
+        $bindings = $query->getBindings(); // Get the parameters that will be bound to the query
+
+        // Replace the placeholders with actual bindings
+        $fullSql = vsprintf(str_replace('?', '%s', $sql), array_map(function ($binding) {
+            return is_numeric($binding) ? $binding : "'$binding'";
+        }, $bindings));
+
+        // dump($fullSql);
 
         return $query->get();
     }
