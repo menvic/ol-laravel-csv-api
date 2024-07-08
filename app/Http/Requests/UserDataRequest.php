@@ -27,19 +27,9 @@ class UserDataRequest extends FormRequest
     {
         $fillableFields = (new UserData())->getFillable();
         $fieldString = implode(',', $fillableFields);
-        $carModelNames = collect(CarModelEnum::cases())->pluck('name')->implode(',');
 
         return [
-            'first_name' => ['nullable', 'string', 'max:50', 'required_without_all:' . $fieldString],
-            'last_name' => ['nullable', 'string', 'max:50', 'required_without_all:' . $fieldString],
-            'age' => ['nullable', 'integer', 'min:18', 'max:80', 'required_without_all:' . $fieldString],
-            'gender' => ['nullable', 'in:male,female', 'required_without_all:' . $fieldString],
-            'mobile_number' => ['nullable', 'string', 'max:25', 'required_without_all:' . $fieldString],
-            'email' => ['nullable', 'string', 'email', 'max:100', 'required_without_all:' . $fieldString],
-            'city' => ['nullable', 'string', 'max:100', 'required_without_all:' . $fieldString],
-            'login' => ['nullable', 'string', 'max:50', 'required_without_all:' . $fieldString],
-            'car_model' => ['nullable', 'in:' . $carModelNames, 'required_without_all:' . $fieldString],
-            'salary' => ['nullable', 'integer', 'min:1000', 'max:5000', 'required_without_all:' . $fieldString],
+            'search' => ['string', 'max:100'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:1000'],
             'offset' => ['nullable', 'integer', 'min:0'],
             'sort_by' => ['nullable', 'string', 'in:' . $fieldString],
@@ -73,16 +63,7 @@ class UserDataRequest extends FormRequest
     public function queryParameters()
     {
         return [
-            'first_name' => ['example' => 'A'],
-            'last_name' => ['example' => 'A'],
-            'age' => ['example' => 30],
-            'gender' => ['example' => 'male'],
-            'mobile_number' => ['example' => '123'],
-            'email' => ['example' => 'test@gmail.com'],
-            'city' => ['example' => 'London'],
-            'login' => ['example' => 'A'],
-            'car_model' => ['example' => 'BMW'],
-            'salary' => ['example' => 1000],
+            'search' => ['example' => 'A'],
             'limit' => ['example' => 10],
             'offset' => ['example' => 0],
             'sort_by' => ['example' => 'age'],

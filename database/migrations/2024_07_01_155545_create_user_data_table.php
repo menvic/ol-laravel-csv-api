@@ -40,11 +40,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement('CREATE INDEX user_data_lower_first_name_index ON user_data (LOWER(first_name))');
-        DB::statement('CREATE INDEX user_data_lower_last_name_index ON user_data (LOWER(last_name))');
-        DB::statement('CREATE INDEX user_data_lower_email_index ON user_data (LOWER(email))');
-        DB::statement('CREATE INDEX user_data_lower_city_index ON user_data (LOWER(city))');
-        DB::statement('CREATE INDEX user_data_lower_login_index ON user_data (LOWER(login))');
+        DB::statement('CREATE FULLTEXT INDEX user_data_fulltext_index ON user_data (first_name, last_name, age, gender, mobile_number, email, city, login, car_model, salary)');
     }
 
     /**
