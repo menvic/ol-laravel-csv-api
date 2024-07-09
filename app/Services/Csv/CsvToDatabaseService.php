@@ -31,6 +31,7 @@ class CsvToDatabaseService
         try {
             // disable indexes
             DB::statement("ALTER TABLE {$table} DISABLE TRIGGER ALL");
+            DB::statement("ALTER TABLE {$table} SET (autovacuum_enabled = false)");
 
             $query = sprintf("COPY %s(%s) FROM '%s' CSV HEADER", $table, $fieldString, $file);
 
@@ -49,6 +50,7 @@ class CsvToDatabaseService
         } finally {
             // Enable indexes
             DB::statement("ALTER TABLE {$table} ENABLE TRIGGER ALL");
+            DB::statement("ALTER TABLE {$table} SET (autovacuum_enabled = true)");
         }
     }
 }
